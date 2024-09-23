@@ -1,0 +1,39 @@
+.card {
+  border-radius: 10px;
+  width: 13%;
+  height: 250px;
+  border-radius: 20px;
+  contain: content;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  height: 55%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 15px;
+  gap: 10px;
+  width: 100%;
+  height: 45%;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #666;
+}

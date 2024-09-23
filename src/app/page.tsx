@@ -1,95 +1,74 @@
-import Image from "next/image";
+import { Card, NavBar } from "@/components";
 import styles from "./page.module.css";
+import { I_Tourism, I_Voucher } from "@/interfaces";
+import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const resTourism = await fetch("http://localhost:8080/api/accounts/tourism");
+  const dataTourism = await resTourism.json();
+
+  const resVoucher = await fetch("http://localhost:8080/api/accounts/voucher");
+  const dataVoucher = await resVoucher.json();
+
   return (
-    <div className={styles.page}>
+    <div className={styles.container}>
+      <NavBar />
       <main className={styles.main}>
         <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/SliderImage.jpg"
+          alt="sliderImage"
+          className={styles.sectionImage}
+          width={2070}
+          height={500}
+          quality={100}
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+        <section className={styles.sectionContainer}>
+          <div className={styles.sectionHeader}>
+            <h1>Turismo en Buenos Aires</h1>
+            <button className={styles.button}>TODOS LOS BENEFICIOS</button>
+          </div>
+          <div className={styles.cardContainer}>
+            <button className={styles.arrow}>{"<"}</button>
+            {dataTourism.map((item: I_Tourism) => (
+              <Card key={item.name} image={item.image} name={item.name}>
+                <h1 className={styles.titleCard}>{item.name}</h1>
+                <div className={styles.descount}>
+                  <p>20%</p> | <p>15%</p> | <p>10%</p>
+                </div>
+                <p className={styles.distanceCard}>A {item.closestDistance}</p>
+              </Card>
+            ))}
+            <button className={styles.arrow}>{">"}</button>
+          </div>
+        </section>
+        <section
+          className={styles.sectionContainer}
+          style={{ backgroundColor: "#e4e4e4" }}
+        >
+          <div className={styles.sectionHeader}>
+            <h1>Códigos de descuento</h1>
+            <button className={styles.button}>TODOS LOS CÓDIGOS</button>
+          </div>
+          <p></p>
+          <div className={styles.cardContainer}>
+            <button className={styles.arrow}>{"<"}</button>
+            {dataVoucher.map((item: I_Voucher) => (
+              <Card
+                key={item.name}
+                background="#007bff"
+                image={item.image}
+                name={item.name}
+              >
+                <h1 className={styles.titleCard} style={{ color: "white" }}>
+                  {item.name}
+                </h1>
+                <button className={styles.buttonCard}>Quiero mi codigo</button>
+              </Card>
+            ))}
+            <button className={styles.arrow}>{">"}</button>
+          </div>
+        </section>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
